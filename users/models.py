@@ -19,6 +19,7 @@ class CustomUserManagoer(UserManager):
 class User(AbstractBaseUser):
     userid    = models.CharField(max_length=30, unique=True)
     is_active = models.BooleanField(default=True)
+    is_staff  = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'userid'
     objects = CustomUserManagoer()
