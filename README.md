@@ -63,15 +63,12 @@
 
 ### ENDPOINT
 
-| Method | endpoint | Request Header | Remark |
-|:------:|-------------|-----|--------|
-|GET|/list||임상 시험 전체리스트|
-|GET|/list?department=||특정 진료과 필터|
-|GET|/list?scope||연구 범위 필터|
-|GET|/list?category||연구 종류 필터|
-|GET|/list?institution||연구 책임 기관 필터|
-|GET|/list?phase||임상시험단계 필터|
-|GET|/trials/<int:number>||특정 임상 연구 상세페이지|
+| Method | endpoint | Request Header|Request body | Remark |
+|:------:|-------------|-----|-------|--------|
+|POST|/user||userid, password, is_staff|회원가입|
+|POST|/token||userid, password|로그인|
+|POST|/tire|token|user, tire|유저-타이어 저장|
+|GET|/tire|token||유저-타이어 조회|
 
 
 ## API 명세(request/response)
