@@ -36,28 +36,32 @@
 
 ✔️ **API 상세설명**
 ---
-
-- 임상 시험   
   
 ## 구현 기능
-### 임상정보를 수집하는 batch task
-- 참고: https://www.data.go.kr/data/3074271/fileData.do#/API%20%EB%AA%A9%EB%A1%9D/GETuddi%3Acfc19dda-6f75-4c57-86a8-bb9c8b103887
-- OPEN API에 접근하여 데이터를 DB에 저장
-- Crontab을 활용하여 일정 주기 마다 API에 접근하여 업데이트 내역 DB에 반영
+### 사용자 생성 API
+- userid와 password를 입력하여 사용자 생성하는 API
+- is_staff의 값을 주어 true면 관리자, false면 일반 유저로 생성
+- 로그인 시 인증토큰을 발급하여 인증된 사용자에 한하여 API 호출 가능 (권한에 따른 API 호출 제한)
 
-### 수집한 임상정보에 대한 API
-- 특정 임상정보 조회(상세페이지)
-- 연구 범위, 종류, 책임기관, 특정 진료과, 임상시험 단계 별 필터링 하여 정보 조회
+### 타이어 정보를 DB에 저장하는 API
+- 자동차 정보 조회 API에서 타이어에 해당하는 정보만 추출하여 데이터베이스에 저장
+- 중복 저장 방지(API 호출 시 기존에 저장된 정보는 또 다시 저장되지 않음)
 
-### 수집한 임상정보 리스트 API
-- 전체 임상정보 리스트 조회
-- 페이지네이션 기능 포함
+### 사용자가 소유한 타이어 정보를 저장하는 API
+- 권한: 회원가입 시 관리자 권한을 부여받은 사용자만 저장 가능(is_staff=true)
+- id와 trimid를 입력 시 입력된 사용자에게 입력된 trim에 해당하는 타이어 정보가 저장됨
+- 한번에 최대 5명까지의 사용자에 대한 요청을 받을 수 있음
+- 5명 초과의 요청, 아이디가 존재하지 않을 경우, trimid가 존재하지 않을 경우 에러 반환
+- 원자성을 고려하여 도중에 에러 시 rollback 수행
+
+### 사용자가 소유한 타이어 정보 조회 API
+- 권한: 로그인 시 인증토큰을 통해 인증된 사용자 이상 조회 가능
+- Query Params로 ID 검색 시 해당 ID에 저장된 타이어 정보 조회
+- ID 검색 시 유저 없는 경우 에러 반환
 
 ## 기술 스택
 - Back-End : python, django-rest-framework, sqlite3
 - Tool     : Git, Github, slack, postman
-
-## API
 
 ## 실행 방법(endpoint 호출방법)
 
@@ -72,7 +76,7 @@
 
 
 ## API 명세(request/response)
-  - [Postman API Document](https://documenter.getpostman.com/view/17229002/UVCBA4BT)
+  - [Postman API Document](https://documenter.getpostman.com/view/17228955/UVJcjvpy)
 
 ## 폴더 구조
 ```
